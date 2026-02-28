@@ -24,6 +24,12 @@ export default async function Home({ searchParams }: Props) {
             </p>
           )}
         </div>
+        <Link
+          href="/new"
+          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+        >
+          追加
+        </Link>
       </div>
       <BookmarkList bookmarks={bookmarks} activeTag={tag} />
     </div>

@@ -40,7 +40,7 @@ async function handleResponse<T>(res: Response): Promise<T> {
 export async function getBookmarks(tag?: string): Promise<Bookmark[]> {
   const params = tag ? `?tag=${encodeURIComponent(tag)}` : "";
   const res = await fetch(`${API_BASE}/api/bookmarks${params}`, {
-    next: { tags: ["bookmarks"] },
+    cache: "no-store",
   });
   const json = await handleResponse<ApiResponse<Bookmark[]>>(res);
   return json.data;
@@ -49,7 +49,7 @@ export async function getBookmarks(tag?: string): Promise<Bookmark[]> {
 /** 指定IDのブックマークを取得する */
 export async function getBookmark(id: number): Promise<Bookmark> {
   const res = await fetch(`${API_BASE}/api/bookmarks/${id}`, {
-    next: { tags: ["bookmarks", `bookmark-${id}`] },
+    cache: "no-store",
   });
   const json = await handleResponse<ApiResponse<Bookmark>>(res);
   return json.data;
