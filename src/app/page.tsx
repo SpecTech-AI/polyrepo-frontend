@@ -1,13 +1,31 @@
-export default function Home() {
+import Link from "next/link";
+import { getBookmarks } from "@/lib/api";
+import { BookmarkList } from "@/components/bookmark-list";
+
+type Props = {
+  searchParams: Promise<{ tag?: string }>;
+};
+
+export default async function Home({ searchParams }: Props) {
+  const { tag } = await searchParams;
+  const bookmarks = await getBookmarks(tag);
+
   return (
-    <div className="flex flex-col items-center justify-center gap-4 py-20">
-      <h2 className="text-2xl font-bold">Bookmark Manager</h2>
-      <p className="text-gray-600 dark:text-gray-400">
-        ブックマーク管理ツールのフロントエンドです。
-      </p>
-      <p className="text-sm text-gray-500">
-        バックエンドAPI: {process.env.API_URL || "http://localhost:3001"}
-      </p>
+    <div>
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-bold">ブックマーク一覧</h2>
+          {tag && (
+            <p className="mt-1 text-sm text-gray-500">
+              タグ: <span className="font-medium">{tag}</span>
+              <Link href="/" className="ml-2 text-blue-600 hover:underline">
+                クリア
+              </Link>
+            </p>
+          )}
+        </div>
+      </div>
+      <BookmarkList bookmarks={bookmarks} activeTag={tag} />
     </div>
   );
 }
